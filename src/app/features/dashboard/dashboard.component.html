@@ -1,0 +1,40 @@
+<div class="dashboard-header">
+  <h1>Welcome, {{ authService.currentUser()?.name }}!</h1>
+  <p>You are logged in as <strong>{{ authService.currentUser()?.role }}</strong>.</p>
+</div>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Data Records</mat-card-title>
+    <mat-card-subtitle>Available records based on your access level</mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <table mat-table [dataSource]="records" class="mat-elevation-z8">
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let record"> {{record.id}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Record Name </th>
+        <td mat-cell *matCellDef="let record"> {{record.name}} </td>
+      </ng-container>
+
+      <!-- Access Level Column -->
+      <ng-container matColumnDef="accessLevel">
+        <th mat-header-cell *matHeaderCellDef> Access Level </th>
+        <td mat-cell *matCellDef="let record"> {{record.accessLevel}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div *ngIf="records.length === 0" style="padding: 20px; text-align: center;">
+      Loading records...
+    </div>
+  </mat-card-content>
+</mat-card>

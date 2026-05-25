@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+  <span>Enterprise Portal</span>
+  <span class="spacer"></span>
+
+  <ng-container *ngIf="authService.isAuthenticated()">
+    <button mat-button routerLink="/dashboard" routerLinkActive="active-link">Dashboard</button>
+    <button mat-button *ngIf="authService.isAdmin()" routerLink="/admin" routerLinkActive="active-link">User Management</button>
+    
+    <span class="spacer"></span>
+    
+    <span class="user-info">
+      {{ authService.currentUser()?.name }} ({{ authService.currentUser()?.role }})
+    </span>
+    
+    <button mat-icon-button (click)="logout()" title="Logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="!authService.isAuthenticated()">
+    <button mat-button routerLink="/auth/login">Login</button>
+  </ng-container>
+</mat-toolbar>

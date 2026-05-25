@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "Sales Report Q1", "accessLevel": "Read" },
+  { "id": 2, "name": "Device Logs - Server A", "accessLevel": "Write" },
+  { "id": 3, "name": "Employee Directory", "accessLevel": "Read" },
+  { "id": 4, "name": "Inventory Database", "accessLevel": "Read/Write" },
+  { "id": 5, "name": "Financial Audit 2025", "accessLevel": "Read" }
+]
