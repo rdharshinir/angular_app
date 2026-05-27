@@ -3,7 +3,7 @@
   <p>You are logged in as <strong>{{ authService.currentUser()?.role }}</strong>.</p>
 </div>
 
-<mat-card>
+<mat-card class="custom-card">
   <mat-card-header>
     <mat-card-title>Data Records</mat-card-title>
     <mat-card-subtitle>Available records based on your access level</mat-card-subtitle>
@@ -33,8 +33,11 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <div *ngIf="records.length === 0" style="padding: 20px; text-align: center;">
+    <div *ngIf="records.length === 0 && !errorMessage" style="padding: 20px; text-align: center;">
       Loading records...
+    </div>
+    <div *ngIf="errorMessage" style="padding: 20px; text-align: center; color: red;">
+      {{ errorMessage }}
     </div>
   </mat-card-content>
 </mat-card>

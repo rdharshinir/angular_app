@@ -35,7 +35,7 @@ app.post('/api/login', async (req, res) => {
   try {
     const { email, password, role } = req.body;
     const users = JSON.parse(await readFile(USERS_FILE, 'utf-8'));
-    const user = users.find((u: any) => u.email === email && u.password === password && u.role === role);
+    const user = users.find((u: any) => u.email === email && u.password === password);
     if (user) {
       const { password: _, ...userWithoutPassword } = user;
       res.json(userWithoutPassword);

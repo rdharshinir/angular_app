@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class DataService {
   private http = inject(HttpClient);
-  private readonly delay = 2000;
+  private readonly delay = 0;
 
   getRecords(): Observable<Record[]> {
     return this.http.get<Record[]>(`/api/records?delay=${this.delay}`);

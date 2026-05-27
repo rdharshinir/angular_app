@@ -1,48 +1,125 @@
-<div class="login-container">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Login</mat-card-title>
-      <mat-card-subtitle>Role-Based User Management</mat-card-subtitle>
-    </mat-card-header>
-    
-    <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" placeholder="admin@example.com">
-          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">Email is required</mat-error>
-          <mat-error *ngIf="loginForm.get('email')?.hasError('email')">Invalid email format</mat-error>
-        </mat-form-field>
+<div class="login-page-container">
+  <!-- From Uiverse.io by mamyapro123 --> 
+  <div class="doodle-wrapper">
+    <input
+      type="checkbox"
+      id="doodle-flip"
+      class="doodle-toggle"
+      aria-label="Toggle Login and Sign up"
+    />
 
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password">
-          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
-        </mat-form-field>
+    <div class="doodle-header">
+      <span class="doodle-mode-text login-text">Log in</span>
+      <label class="doodle-switch-label" for="doodle-flip" tabindex="0">
+        <span class="doodle-switch-handle"></span>
+      </label>
+      <span class="doodle-mode-text signup-text">Sign up</span>
+    </div>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Login Role</mat-label>
-          <mat-select formControlName="role">
-            <mat-option value="Admin">Admin</mat-option>
-            <mat-option value="General User">General User</mat-option>
-          </mat-select>
-        </mat-form-field>
+    <div class="doodle-card-scene">
+      <svg
+        class="doodle-svg doodle-star"
+        viewBox="0 0 24 24"
+        fill="#ffd166"
+        stroke="var(--ink)"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polygon
+          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+        ></polygon>
+      </svg>
+      <svg
+        class="doodle-svg doodle-sparkle"
+        viewBox="0 0 24 24"
+        fill="#06d6a0"
+        stroke="var(--ink)"
+        stroke-width="1.5"
+      >
+        <path
+          d="M12 2 Q12 12 22 12 Q12 12 12 22 Q12 12 2 12 Q12 12 12 2 Z"
+        ></path>
+      </svg>
+      <svg
+        class="doodle-svg doodle-swirl"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="var(--ink)"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      >
+        <path
+          d="M3 12 C 3 5 10 5 16 5 C 20 5 21 9 18 12 C 15 15 10 13 12 9 C 14 5 22 9 21 16"
+        ></path>
+      </svg>
 
-        <div class="error" *ngIf="errorMessage">
-          {{ errorMessage }}
+      <div class="doodle-card-inner">
+        <div class="doodle-card-front">
+          <div class="doodle-title">Welcome!</div>
+          <form class="doodle-form" [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+            <div class="doodle-input-wrapper">
+              <input
+                class="doodle-input"
+                formControlName="email"
+                placeholder="Email"
+                type="email"
+                required
+              />
+            </div>
+            <div class="doodle-input-wrapper">
+              <input
+                class="doodle-input"
+                formControlName="password"
+                placeholder="Password"
+                type="password"
+                required
+              />
+            </div>
+            <div class="error" *ngIf="loginErrorMessage" style="color: #f44336; font-size: 0.9rem; text-align: center;">
+              {{ loginErrorMessage }}
+            </div>
+            <button class="doodle-btn" type="submit" [disabled]="loginForm.invalid">Let's Go!</button>
+          </form>
         </div>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
-          Login
-        </button>
-      </form>
-    </mat-card-content>
-    
-    <mat-card-footer>
-      <div style="padding: 16px; font-size: 0.8rem; color: #666;">
-        <p>Admin: admin@example.com / admin</p>
-        <p>User: user@example.com / user</p>
+        <div class="doodle-card-back">
+          <div class="doodle-title doodle-title-alt">Join Us!</div>
+          <form class="doodle-form" [formGroup]="signupForm" (ngSubmit)="onSubmitSignup()">
+            <div class="doodle-input-wrapper">
+              <input
+                class="doodle-input"
+                formControlName="username"
+                placeholder="Name"
+                type="text"
+                required
+              />
+            </div>
+            <div class="doodle-input-wrapper">
+              <input
+                class="doodle-input"
+                formControlName="email"
+                placeholder="Email"
+                type="email"
+                required
+              />
+            </div>
+            <div class="doodle-input-wrapper">
+              <input
+                class="doodle-input"
+                formControlName="password"
+                placeholder="Password"
+                type="password"
+                required
+              />
+            </div>
+            <div class="error" *ngIf="signupErrorMessage" style="color: #f44336; font-size: 0.9rem; text-align: center;">
+              {{ signupErrorMessage }}
+            </div>
+            <button class="doodle-btn doodle-btn-alt" type="submit" [disabled]="signupForm.invalid">Confirm!</button>
+          </form>
+        </div>
       </div>
-    </mat-card-footer>
-  </mat-card>
+    </div>
+  </div>
 </div>
