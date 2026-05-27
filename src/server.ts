@@ -6,8 +6,12 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { dirname, join } from 'node:path';
-import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import usersData from '../data/users.json';
+import recordsData from '../data/records.json';
+
+let users = [...usersData];
+let records = [...recordsData];
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,9 +19,6 @@ const browserDistFolder = join(__dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
-
-const USERS_FILE = join(process.cwd(), 'data/users.json');
-const RECORDS_FILE = join(process.cwd(), 'data/records.json');
 
 app.use(express.json());
 
@@ -34,7 +35,6 @@ app.use((req, res, next) => {
 app.post('/api/login', async (req, res) => {
   try {
     const { email, password, role } = req.body;
-    const users = JSON.parse(await readFile(USERS_FILE, 'utf-8'));
     const user = users.find((u: any) => u.email === email && u.password === password);
     if (user) {
       const { password: _, ...userWithoutPassword } = user;
@@ -49,7 +49,6 @@ app.post('/api/login', async (req, res) => {
 
 app.get('/api/records', async (req, res) => {
   try {
-    const records = JSON.parse(await readFile(RECORDS_FILE, 'utf-8'));
     res.json(records);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -58,7 +57,6 @@ app.get('/api/records', async (req, res) => {
 
 app.get('/api/users', async (req, res) => {
   try {
-    const users = JSON.parse(await readFile(USERS_FILE, 'utf-8'));
     res.json(users.map(({ password: _, ...u }: any) => u));
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -67,10 +65,8 @@ app.get('/api/users', async (req, res) => {
 
 app.post('/api/users', async (req, res) => {
   try {
-    const users = JSON.parse(await readFile(USERS_FILE, 'utf-8'));
     const newUser = { ...req.body, id: Date.now().toString() };
     users.push(newUser);
-    await writeFile(USERS_FILE, JSON.stringify(users, null, 2));
     res.json(newUser);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -80,11 +76,9 @@ app.post('/api/users', async (req, res) => {
 app.put('/api/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const users = JSON.parse(await readFile(USERS_FILE, 'utf-8'));
     const index = users.findIndex((u: any) => u.id === id);
     if (index !== -1) {
       users[index] = { ...users[index], ...req.body };
-      await writeFile(USERS_FILE, JSON.stringify(users, null, 2));
       res.json(users[index]);
     } else {
       res.status(404).json({ message: 'User not found' });
@@ -97,9 +91,7 @@ app.put('/api/users/:id', async (req, res) => {
 app.delete('/api/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const users = JSON.parse(await readFile(USERS_FILE, 'utf-8'));
-    const filteredUsers = users.filter((u: any) => u.id !== id);
-    await writeFile(USERS_FILE, JSON.stringify(filteredUsers, null, 2));
+    users = users.filter((u: any) => u.id !== id);
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
