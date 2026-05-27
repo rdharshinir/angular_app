@@ -1,13 +1,13 @@
 <div class="admin-header">
   <h1>User Management</h1>
-  <button mat-raised-button color="primary" (click)='addUser()'>
+  <button mat-raised-button class="add-btn" (click)='addUser()'>
     <mat-icon>add</mat-icon> Add User
   </button>
 </div>
 
-<mat-card>
+<mat-card class="premium-card">
   <mat-card-content>
-    <table mat-table [dataSource]="users" class="mat-elevation-z8">
+    <table mat-table [dataSource]="users" class="mat-elevation-z0">
       <!-- ID Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> ID </th>
